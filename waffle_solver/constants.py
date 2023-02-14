@@ -1,0 +1,3 @@
+WAFFLE_DAILY_GAME_URL = "https://wafflegame.net/"
+
+EMPTY_WAFFLE_GAME_BOARD_CHARACTER = " "

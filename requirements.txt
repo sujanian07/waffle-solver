@@ -2,3 +2,5 @@ pyenchant==3.2.2
 beautifulsoup4==4.11.2
 selenium==4.8.0
 webdriver-manager==3.8.5
+nltk==3.8.1
+ipython==8.8.0
