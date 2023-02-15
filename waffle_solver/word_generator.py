@@ -15,7 +15,7 @@ nltk_valid_words = set(words.words())
 dictionary = enchant.Dict("en_US")
 
 
-def get_words_for_waffle_game_board(waffle_game_board, right_waffle_game_board):
+def get_possible_words(waffle_game_board, right_waffle_game_board):
     """Returns possible words that can be used to complete the Waffle game board.
 
     Returns:
