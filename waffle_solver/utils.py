@@ -60,7 +60,16 @@ def generate_waffle_board_solution_character_count(solution_board):
 
 
 def get_empty_tile_count_for_waffle_board(waffle_board):
+    """Returns empty tile count on a Waffle game board."""
     empty_tile_count = 0
     for waffle_word in waffle_board:
         empty_tile_count += waffle_word.count(constants.EMPTY_WAFFLE_GAME_BOARD_CHARACTER)
     return empty_tile_count
+
+
+def display_waffle_game_board(waffle_game_board):
+    """Displays Waffle game board onto the output window."""
+    print("\n".join(
+        ["".join(["{:4}".format(item) for item in row])
+         for row in waffle_game_board])
+    )

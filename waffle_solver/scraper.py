@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-import constants
+import constants, utils
 
 
 def get_waffle_word_game():
@@ -21,12 +21,14 @@ def get_waffle_word_game():
     """
     print("\n\nFetching the game board...")
     service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("headless")
+    browser = webdriver.Chrome(service=service, chrome_options=chrome_options)
     # Start the selenium driver to get the waffle word game.
-    driver.get(constants.WAFFLE_DAILY_GAME_URL)
+    browser.get(constants.WAFFLE_DAILY_GAME_URL)
 
     # Parse to get board tiles from the Waffle word game.
-    soup = BeautifulSoup(driver.page_source, "html.parser")
+    soup = BeautifulSoup(browser.page_source, "html.parser")
     waffle_board = soup.find("div", class_="board")
     waffle_tiles = waffle_board.find_all("div", class_="tile")
 
@@ -34,29 +36,28 @@ def get_waffle_word_game():
     # word game.
 
     # 2D array with the waffle word game matrix.
-    waffle_matrix = [[constants.EMPTY_WAFFLE_GAME_BOARD_CHARACTER for _ in range(5)] for _ in range(5)]
+    waffle_game_board = [[constants.EMPTY_WAFFLE_GAME_BOARD_CHARACTER for _ in range(5)] for _ in range(5)]
     # 2-D array with only characters in the right positions
     # on the waffle word game board.
-    right_waffle_matrix = [[constants.EMPTY_WAFFLE_GAME_BOARD_CHARACTER for _ in range(5)] for _ in range(5)]
+    right_waffle_game_board = [[constants.EMPTY_WAFFLE_GAME_BOARD_CHARACTER for _ in range(5)] for _ in range(5)]
 
     for tile in waffle_tiles:
         character = tile.text
         character_position = json.loads(tile.attrs["data-pos"])
         row_index, column_index = character_position["y"], character_position["x"]
         character_class = tile.attrs["class"]
-        waffle_matrix[row_index][column_index] = character
+        waffle_game_board[row_index][column_index] = character
         if "green" not in character_class:
             continue
         # The character is in the right position if the tile is green on the
         # Waffle game board. Only append characters in this matrix,
         # if they are in the right position on Waffle word game board.
-        right_waffle_matrix[row_index][column_index] = character
+        right_waffle_game_board[row_index][column_index] = character
 
     # Quit the driver once we have loaded the program into memory.
-    driver.quit()
+    browser.quit()
     print("Done\n\n")
     print("DAILY WAFFLE BOARD\n")
-    print('\n'.join([''.join(['{:4}'.format(item) for item in row])
-                     for row in waffle_matrix]))
+    utils.display_waffle_game_board(waffle_game_board)
     print("\n\n")
-    return waffle_matrix, right_waffle_matrix
+    return waffle_game_board, right_waffle_game_board

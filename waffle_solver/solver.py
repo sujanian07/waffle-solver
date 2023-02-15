@@ -36,7 +36,7 @@ maximum_character_count_for_waffle_board = all_character_count_for_waffle_board[
 
 def generate_solution_waffle_game_boards():
     print("Generating solution Waffle game boards for you...\n\n")
-    waffle_board_solutions = []
+    waffle_game_board_solutions = []
     for word_combination in possible_word_combinations_for_waffle_board:
         solution_board = [[constants.EMPTY_WAFFLE_GAME_BOARD_CHARACTER for _ in range(5)] for _ in range(5)]
         words_used = 0
@@ -61,10 +61,10 @@ def generate_solution_waffle_game_boards():
             words_used += 1
         # If all the words are not used and new_arr is already present
         # in possible waffle arrays continue from here.
-        if words_used != 5 and solution_board in waffle_board_solutions:
+        if words_used != 5 and solution_board in waffle_game_board_solutions:
             continue
-        waffle_board_solutions.append(solution_board)
-    return waffle_board_solutions
+        waffle_game_board_solutions.append(solution_board)
+    return waffle_game_board_solutions
 
 
 def is_valid_waffle_board_solution(solution_bard):
@@ -101,6 +101,5 @@ for waffle_game_solution_board in waffle_game_solution_boards:
 
 print("DAILY WAFFLE GAME SOLUTIONS:\n\n")
 for final_waffle_game_solution_board in final_waffle_game_solution_boards:
-    print('\n'.join([''.join(['{:4}'.format(item) for item in row])
-                     for row in final_waffle_game_solution_board]))
+    utils.display_waffle_game_board(final_waffle_game_solution_board)
     print("\n\n")
