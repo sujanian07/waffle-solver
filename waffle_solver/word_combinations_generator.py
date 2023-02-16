@@ -29,8 +29,6 @@ def generate_words_combinations(
         possible_words_for_waffle_game_board[4],
         possible_words_for_waffle_game_board[5]
     )
-    # Store it in memory.
-    word_combinations_for_waffle_board = list(set(word_combinations_for_waffle_board))
     possible_word_combinations_for_waffle_board = []
 
     for word_combination in word_combinations_for_waffle_board:
